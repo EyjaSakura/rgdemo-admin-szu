@@ -1,0 +1,47 @@
+# IntelliJ
+.idea/
+*.iml
+
+# Maven
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+release.properties
+
+# Compiled class files
+*.class
+
+# Package files
+*.jar
+*.war
+*.nar
+*.ear
+*.zip
+*.tar.gz
+*.rar
+
+# Logs
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Spring Boot temp
+spring.log
+
+# Env config
+application-local.yml
+application-secret.yml
+
+# Eclipse
+.project
+.classpath
+.settings/
+
+# Build output
+out/
