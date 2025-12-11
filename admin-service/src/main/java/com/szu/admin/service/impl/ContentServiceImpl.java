@@ -2,7 +2,6 @@ package com.szu.admin.service.impl;
 
 import com.szu.admin.common.PageResult;
 import com.szu.admin.domain.Content;
-import com.szu.admin.domain.User;
 import com.szu.admin.dto.ChangeStatusDTO;
 import com.szu.admin.dto.UpdateContentDTO;
 import com.szu.admin.mapper.ContentMapper;

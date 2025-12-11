@@ -1,13 +1,16 @@
-package com.szu.admin.dto;
+package com.szu.admin.vo;
 
 import lombok.Data;
 
+import java.util.Date;
+
 @Data
-public class UpdateUserDTO {
+public class AdminUserVO {
     private Long id;
     private String username;
-    private String password;
     private String nickname;
     private String avatar;
     private String phone;
+    private Integer status;
+    private Date createdAt;
 }

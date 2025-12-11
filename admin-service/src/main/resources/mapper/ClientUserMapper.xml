@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.szu.admin.mapper.ClientUserMapper">
+
+    <resultMap id="ClientUserMap" type="com.szu.admin.domain.ClientUser">
+        <id property="id" column="id"/>
+        <result property="openid" column="openid"/>
+        <result property="name" column="name"/>
+        <result property="avatar" column="avatar"/>
+        <result property="status" column="status"/>
+        <result property="isDeleted" column="is_deleted"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+    </resultMap>
+
+    <select id="listClientUsers" resultMap="ClientUserMap">
+        SELECT * FROM client_user
+        WHERE 1=1
+        <if test="status != null">
+            AND status = #{status}
+        </if>
+        <if test="isDeleted != null">
+            AND is_deleted = #{isDeleted}
+        </if>
+        ORDER BY id DESC
+    </select>
+
+    <select id="findClientUserByName" resultMap="ClientUserMap">
+        SELECT * FROM client_user WHERE name = #{name}
+    </select>
+
+    <select id="findClientUserById" resultMap="ClientUserMap">
+        SELECT * FROM client_user WHERE id = #{id}
+    </select>
+
+    <select id="findClientUserByOpenId" resultMap="ClientUserMap">
+        SELECT * FROM client_user WHERE openid = #{openid}
+    </select>
+
+    <update id="updateClientUser">
+        UPDATE client_user
+        <set>
+            <if test="name != null">name = #{name},</if>
+            <if test="avatar != null">avatar = #{avatar},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="isDeleted != null">is_deleted = #{isDeleted},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <select id="countClientUsers" resultType="long">
+        SELECT COUNT(1) FROM client_user
+        WHERE 1=1
+        <if test="status != null">
+            AND status = #{status}
+        </if>
+        <if test="isDeleted != null">
+            AND is_deleted = #{isDeleted}
+        </if>
+    </select>
+
+</mapper>

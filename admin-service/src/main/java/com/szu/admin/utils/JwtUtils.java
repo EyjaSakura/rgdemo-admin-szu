@@ -14,11 +14,20 @@ public class JwtUtils {
     private static final long EXPIRATION = 7 * 24 * 60 * 60 * 1000;
 
     // 生成 token（只放必要信息）
-    public static String generateToken(Long userId, String username, Integer role) {
+//    public static String generateToken(Long userId, String username, Integer role) {
+//        return Jwts.builder()
+//                .setSubject(username)
+//                .claim("id", userId)
+//                .claim("role", role)
+//                .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION))
+//                .signWith(Keys.hmacShaKeyFor(SECRET_KEY.getBytes()))
+//                .compact();
+//    }
+
+    public static String generateToken(Long userId, String username) {
         return Jwts.builder()
                 .setSubject(username)
                 .claim("id", userId)
-                .claim("role", role)
                 .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION))
                 .signWith(Keys.hmacShaKeyFor(SECRET_KEY.getBytes()))
                 .compact();
