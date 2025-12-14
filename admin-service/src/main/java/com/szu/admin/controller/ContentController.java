@@ -4,10 +4,13 @@ import com.szu.admin.common.PageResult;
 import com.szu.admin.common.Result;
 import com.szu.admin.dto.ChangeStatusDTO;
 import com.szu.admin.dto.UpdateContentDTO;
+import com.szu.admin.dto.query.ContentQueryDTO;
 import com.szu.admin.service.ContentService;
 import com.szu.admin.vo.ContentVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/contents")
@@ -16,13 +19,10 @@ public class ContentController {
     @Autowired
     private ContentService contentService;
 
-    @GetMapping("/list")
+    @PostMapping("/list")
     public Result<PageResult<ContentVO>> list(
-            @RequestParam(required = false) Integer isDeleted,
-            @RequestParam(required = false) Integer status,
-            @RequestParam(defaultValue = "1") int page,
-            @RequestParam(defaultValue = "10") int size) {
-        return Result.ok(contentService.listContents(isDeleted, status, page, size));
+            @RequestBody ContentQueryDTO dto) {
+        return Result.ok(contentService.listContents(dto));
     }
 
     @PostMapping("/change-status")

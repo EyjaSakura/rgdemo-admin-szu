@@ -4,6 +4,7 @@ import com.szu.admin.common.PageResult;
 import com.szu.admin.domain.Content;
 import com.szu.admin.dto.ChangeStatusDTO;
 import com.szu.admin.dto.UpdateContentDTO;
+import com.szu.admin.dto.query.ContentQueryDTO;
 import com.szu.admin.mapper.ContentMapper;
 import com.szu.admin.service.ContentService;
 import com.szu.admin.vo.ContentVO;
@@ -22,10 +23,10 @@ public class ContentServiceImpl implements ContentService {
     private ContentMapper contentMapper;
 
     @Override
-    public PageResult<ContentVO> listContents(Integer isDeleted, Integer status, int page, int size) {
-        List<Content> list = contentMapper.listContents(isDeleted, status);
-        long total = contentMapper.countContents(isDeleted, status);
-        List<ContentVO> vos = list.stream().skip((long)(page-1)*size).limit(size).map(this::toVO).collect(Collectors.toList());
+    public PageResult<ContentVO> listContents(ContentQueryDTO dto) {
+        List<Content> list = contentMapper.listContents(dto.getIsDeleted(), dto.getStatus(), dto.getTagIds());
+        long total = contentMapper.countContents(dto.getIsDeleted(), dto.getStatus(), dto.getTagIds());
+        List<ContentVO> vos = list.stream().skip((long)(dto.getPage()-1)*dto.getSize()).limit(dto.getSize()).map(this::toVO).collect(Collectors.toList());
         return new PageResult<>(total, vos);
     }
 
