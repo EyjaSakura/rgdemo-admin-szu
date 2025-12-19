@@ -1,16 +1,16 @@
-package com.szu.admin.service.impl;
+package com.szu.admin.service.user.impl;
 
 import com.szu.admin.common.PageResult;
 import com.szu.admin.domain.AdminUser;
 import com.szu.admin.dto.ChangeStatusDTO;
 import com.szu.admin.dto.LoginAdminDTO;
 import com.szu.admin.dto.UpdateAdminUserDTO;
-import com.szu.admin.mapper.AdminUserMapper;
-import com.szu.admin.service.AdminUserService;
+import com.szu.admin.mapper.user.AdminUserMapper;
+import com.szu.admin.service.user.AdminUserService;
 import com.szu.admin.utils.JwtUtils;
 import com.szu.admin.utils.PhoneUtils;
 import com.szu.admin.utils.StringUtils;
-import com.szu.admin.vo.AdminUserVO;
+import com.szu.admin.vo.user.AdminUserVO;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -102,7 +102,7 @@ public class AdminUserServiceImpl implements AdminUserService {
         if (u == null) throw new RuntimeException("用户不存在");
         if (!u.getPassword().equals(dto.getPassword())) throw new RuntimeException("密码不正确");
         // 登录成功，生成 token
-        return JwtUtils.generateToken(u.getId(), u.getUsername());
+        return JwtUtils.generateToken(u.getId(), u.getUsername(), u.getRootPriv());
     }
 
     private AdminUserVO toVO(AdminUser u) {

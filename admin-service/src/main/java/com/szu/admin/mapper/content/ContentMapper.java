@@ -1,4 +1,4 @@
-package com.szu.admin.mapper;
+package com.szu.admin.mapper.content;
 
 import com.szu.admin.domain.Content;
 import org.apache.ibatis.annotations.Mapper;

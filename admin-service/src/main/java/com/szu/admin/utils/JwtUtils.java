@@ -19,10 +19,11 @@ public class JwtUtils {
     private static final long EXPIRATION = 7 * 24 * 60 * 60 * 1000;
 
     // 生成 token（只放必要信息）
-    public static String generateToken(Long userId, String username) {
+    public static String generateToken(Long userId, String username, Integer root_priv) {
         return Jwts.builder()
                 .setSubject(username)
                 .claim("id", userId)
+                .claim("root_priv", root_priv)
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION))
                 .signWith(KEY)

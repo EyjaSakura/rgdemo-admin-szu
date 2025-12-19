@@ -1,4 +1,4 @@
-package com.szu.admin.mapper;
+package com.szu.admin.mapper.user;
 
 import com.szu.admin.domain.ClientUser;
 import org.apache.ibatis.annotations.Mapper;

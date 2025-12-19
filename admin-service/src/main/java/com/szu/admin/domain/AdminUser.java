@@ -15,4 +15,5 @@ public class AdminUser {
     private Integer status;      // 1启用 0禁用
     private Date createdAt;
     private Date updatedAt;
+    private Integer rootPriv;  // 1 = root 0 = 非 root
 }

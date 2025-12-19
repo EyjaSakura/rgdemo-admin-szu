@@ -1,4 +1,4 @@
-package com.szu.admin.vo;
+package com.szu.admin.vo.user;
 
 import lombok.Data;
 

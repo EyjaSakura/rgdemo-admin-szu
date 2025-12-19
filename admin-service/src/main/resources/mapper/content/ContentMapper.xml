@@ -2,7 +2,7 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.szu.admin.mapper.ContentMapper">
+<mapper namespace="com.szu.admin.mapper.content.ContentMapper">
 
     <resultMap id="ContentMap" type="com.szu.admin.domain.Content">
         <id property="id" column="id"/>

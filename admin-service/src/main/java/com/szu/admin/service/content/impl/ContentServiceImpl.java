@@ -1,13 +1,13 @@
-package com.szu.admin.service.impl;
+package com.szu.admin.service.content.impl;
 
 import com.szu.admin.common.PageResult;
 import com.szu.admin.domain.Content;
 import com.szu.admin.dto.ChangeStatusDTO;
 import com.szu.admin.dto.UpdateContentDTO;
 import com.szu.admin.dto.query.ContentQueryDTO;
-import com.szu.admin.mapper.ContentMapper;
-import com.szu.admin.service.ContentService;
-import com.szu.admin.vo.ContentVO;
+import com.szu.admin.mapper.content.ContentMapper;
+import com.szu.admin.service.content.ContentService;
+import com.szu.admin.vo.content.ContentVO;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

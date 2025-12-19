@@ -1,16 +1,14 @@
-package com.szu.admin.controller;
+package com.szu.admin.controller.content;
 
 import com.szu.admin.common.PageResult;
 import com.szu.admin.common.Result;
 import com.szu.admin.dto.ChangeStatusDTO;
 import com.szu.admin.dto.UpdateContentDTO;
 import com.szu.admin.dto.query.ContentQueryDTO;
-import com.szu.admin.service.ContentService;
-import com.szu.admin.vo.ContentVO;
+import com.szu.admin.service.content.ContentService;
+import com.szu.admin.vo.content.ContentVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/contents")

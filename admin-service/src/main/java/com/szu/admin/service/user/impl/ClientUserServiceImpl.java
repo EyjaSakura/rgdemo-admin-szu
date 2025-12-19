@@ -1,13 +1,13 @@
-package com.szu.admin.service.impl;
+package com.szu.admin.service.user.impl;
 
 import com.szu.admin.common.PageResult;
 import com.szu.admin.domain.ClientUser;
 import com.szu.admin.dto.ChangeStatusDTO;
 import com.szu.admin.dto.UpdateClientUserDTO;
-import com.szu.admin.mapper.ClientUserMapper;
-import com.szu.admin.service.ClientUserService;
+import com.szu.admin.mapper.user.ClientUserMapper;
+import com.szu.admin.service.user.ClientUserService;
 import com.szu.admin.utils.StringUtils;
-import com.szu.admin.vo.ClientUserVO;
+import com.szu.admin.vo.user.ClientUserVO;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

@@ -14,5 +14,5 @@ spring:
     time-zone: Asia/Shanghai
 
 mybatis:
-  mapper-locations: classpath:mapper/*.xml
-  type-aliases-package: com.example.admin.domain
+  mapper-locations: classpath:mapper/**/*.xml
+  type-aliases-package: com.szu.admin.domain

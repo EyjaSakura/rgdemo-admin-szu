@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.szu.admin.mapper.dashboard.DashboardMapper">
+
+    <!-- 累计用户数 -->
+    <select id="countUsers" resultType="long">
+        SELECT COUNT(*)
+        FROM client_user
+        WHERE is_deleted = 0
+    </select>
+
+    <!-- 累计内容数（下架指被禁用） -->
+    <select id="countContents" resultType="long">
+        SELECT COUNT(*)
+        FROM contents
+        WHERE is_deleted = 0
+    </select>
+
+    <!-- 当日发布内容数 -->
+    <select id="countTodayContents" resultType="long">
+        SELECT COUNT(*)
+        FROM contents
+        WHERE is_deleted = 0
+        AND created_at &gt;= CURDATE()
+        AND created_at &lt; DATE_ADD(CURDATE(), INTERVAL 1 DAY)
+    </select>
+
+    <!-- 当日点赞数（暂未使用） -->
+    <select id="countTodayLikes" resultType="long">
+        SELECT COUNT(*)
+        FROM likes
+        WHERE create_time &gt;= CURDATE()
+        AND create_time &lt; DATE_ADD(CURDATE(), INTERVAL 1 DAY)
+    </select>
+
+    <!-- 当日评分行为数（暂未使用） -->
+    <select id="countTodayRatings" resultType="long">
+        SELECT COUNT(*)
+        FROM ratings
+        WHERE updated_at &gt;= CURDATE()
+        AND updated_at &lt; DATE_ADD(CURDATE(), INTERVAL 1 DAY)
+    </select>
+
+    <!-- 当日新增用户数 -->
+    <select id="countTodayUsers" resultType="long">
+        SELECT COUNT(*)
+        FROM client_user
+        WHERE is_deleted = 0
+        AND create_time &gt;= CURDATE()
+        AND create_time &lt; DATE_ADD(CURDATE(), INTERVAL 1 DAY)
+    </select>
+
+</mapper>
