@@ -13,6 +13,9 @@ spring:
   jackson:
     time-zone: Asia/Shanghai
 
+  mvc:
+    dispatch-options-requests: true
+
 mybatis:
   mapper-locations: classpath:mapper/**/*.xml
   type-aliases-package: com.szu.admin.domain
