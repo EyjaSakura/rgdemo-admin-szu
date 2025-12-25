@@ -15,6 +15,7 @@ public class DashboardController {
     @Autowired
     private DashboardService dashboardService;
 
+    // 返回面板总览数据
     @GetMapping("/summary")
     public Result<DashboardVO> summary() {
         return Result.ok(dashboardService.getSummary());

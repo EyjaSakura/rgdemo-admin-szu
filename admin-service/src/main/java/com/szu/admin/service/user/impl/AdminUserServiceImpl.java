@@ -28,6 +28,7 @@ public class AdminUserServiceImpl implements AdminUserService {
     @Autowired
     private AdminUserMapper adminUserMapper;
 
+    // 可筛选是否删除/是否被禁用/指定模糊名称/排序字段/排序方向的管理员分页搜索列表
     @Override
     public PageResult<AdminUserVO> listAdminUsers(UserQueryDTO dto) {
 
@@ -52,6 +53,7 @@ public class AdminUserServiceImpl implements AdminUserService {
         return new PageResult<>(total, vos);
     }
 
+    // 一键创建初始管理员
     @Override
     public void addDefaultAdminUser() {
         AdminUser u = new AdminUser();
@@ -68,6 +70,7 @@ public class AdminUserServiceImpl implements AdminUserService {
         adminUserMapper.insertAdminUser(u);
     }
 
+    // 更改管理员信息
     @Override
     public void updateAdminUser(UpdateAdminUserDTO dto) {
         if (dto.getId() == null) throw new RuntimeException("id 不能为空");
@@ -103,6 +106,7 @@ public class AdminUserServiceImpl implements AdminUserService {
         adminUserMapper.updateAdminUser(u);
     }
 
+    // 启用/禁用管理员
     @Override
     public void changeAdminUserStatus(ChangeStatusDTO dto) {
         if (dto.getId() == null || dto.getStatus() == null) throw new RuntimeException("参数不完整");
@@ -114,6 +118,7 @@ public class AdminUserServiceImpl implements AdminUserService {
         adminUserMapper.updateAdminUser(u);
     }
 
+    // 删除/恢复管理员
     @Override
     public void changeAdminUserDeleted(ChangeDeletedDTO dto) {
         if (dto.getId() == null || dto.getIsDeleted() == null) throw new RuntimeException("参数不完整");
@@ -123,12 +128,14 @@ public class AdminUserServiceImpl implements AdminUserService {
         adminUserMapper.updateAdminUser(u);
     }
 
+    // 查看管理员详细信息
     @Override
     public AdminUserVO detailAdminUser(Long id) {
         AdminUser u = adminUserMapper.findAdminUserById(id);
         return toVO(u);
     }
 
+    // 管理员登录
     @Override
     public String loginAdminUser(LoginAdminDTO dto) {
         if (dto.getUsername() == null || dto.getPassword() == null) throw new RuntimeException("参数不完整");

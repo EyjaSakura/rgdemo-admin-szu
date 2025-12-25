@@ -12,6 +12,7 @@ public class DashboardServiceImpl implements DashboardService {
     @Autowired
     private DashboardMapper dashboardMapper;
 
+    // 返回面板总览数据
     @Override
     public DashboardVO getSummary() {
         DashboardVO vo = new DashboardVO();

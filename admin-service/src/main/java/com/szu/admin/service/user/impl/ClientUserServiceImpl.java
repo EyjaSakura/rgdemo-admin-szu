@@ -24,6 +24,7 @@ public class ClientUserServiceImpl implements ClientUserService {
     @Autowired
     private ClientUserMapper clientUserMapper;
 
+    // 可筛选是否删除/是否被禁用/指定模糊名称/排序字段/排序方向的小程序用户分页搜索列表
     @Override
     public PageResult<ClientUserVO> listClientUsers(UserQueryDTO dto) {
 
@@ -48,6 +49,7 @@ public class ClientUserServiceImpl implements ClientUserService {
         return new PageResult<>(total, vos);
     }
 
+    // 更改用户信息
     @Override
     public void updateClientUser(UpdateClientUserDTO dto) {
         if (dto.getId() == null) throw new RuntimeException("id 不能为空");
@@ -73,6 +75,7 @@ public class ClientUserServiceImpl implements ClientUserService {
         clientUserMapper.updateClientUser(u);
     }
 
+    // 启用/禁用用户
     @Override
     public void changeClientUserStatus(ChangeStatusDTO dto) {
         if (dto.getId() == null || dto.getStatus() == null) throw new RuntimeException("参数不完整");
@@ -84,6 +87,7 @@ public class ClientUserServiceImpl implements ClientUserService {
         clientUserMapper.updateClientUser(u);
     }
 
+    // 删除/恢复用户
     @Override
     public void changeClientUserDeleted(ChangeDeletedDTO dto) {
         if (dto.getId() == null || dto.getIsDeleted() == null) throw new RuntimeException("参数不完整");
@@ -93,6 +97,7 @@ public class ClientUserServiceImpl implements ClientUserService {
         clientUserMapper.updateClientUser(u);
     }
 
+    // 查看用户详细信息
     @Override
     public ClientUserVO detailClientUser(Long id) {
         ClientUser u = clientUserMapper.findClientUserById(id);

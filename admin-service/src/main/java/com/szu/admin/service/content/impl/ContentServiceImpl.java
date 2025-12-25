@@ -24,6 +24,7 @@ public class ContentServiceImpl implements ContentService {
     @Autowired
     private ContentMapper contentMapper;
 
+    // 可筛选是否删除/是否被禁用/指定标签/指定关键词/排序字段/排序方向的内容分页搜索列表
     @Override
     public PageResult<ContentVO> listContents(ContentQueryDTO dto) {
 
@@ -48,6 +49,7 @@ public class ContentServiceImpl implements ContentService {
         return new PageResult<>(total, vos);
     }
 
+    // 启用/禁用内容
     @Override
     public void changeStatus(ChangeStatusDTO dto) {
         if (dto.getId() == null || dto.getStatus() == null) throw new RuntimeException("参数不完整");
@@ -59,6 +61,7 @@ public class ContentServiceImpl implements ContentService {
         contentMapper.update(c);
     }
 
+    // 删除/恢复内容
     @Override
     public void changeDeleted(@RequestBody ChangeDeletedDTO dto) {
         if (dto.getId() == null || dto.getIsDeleted() == null) throw new RuntimeException("参数不完整");
@@ -68,6 +71,7 @@ public class ContentServiceImpl implements ContentService {
         contentMapper.update(c);
     }
 
+    // 查看内容详细信息
     @Override
     public ContentVO detail(Long id) {
         Content c = contentMapper.findById(id);
@@ -75,6 +79,7 @@ public class ContentServiceImpl implements ContentService {
         return toVO(c);
     }
 
+    // 更改内容信息
     @Override
     public void updateContent(UpdateContentDTO dto) {
         if (dto.getId() == null) throw new RuntimeException("id 不能为空");
