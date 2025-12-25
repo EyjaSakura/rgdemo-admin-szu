@@ -4,9 +4,11 @@ import com.szu.admin.common.PageResult;
 import com.szu.admin.common.Result;
 import com.szu.admin.common.annotation.RequireRoot;
 import com.szu.admin.common.annotation.RequireSelf;
+import com.szu.admin.dto.ChangeDeletedDTO;
 import com.szu.admin.dto.ChangeStatusDTO;
 import com.szu.admin.dto.LoginAdminDTO;
 import com.szu.admin.dto.UpdateAdminUserDTO;
+import com.szu.admin.dto.query.UserQueryDTO;
 import com.szu.admin.service.user.AdminUserService;
 import com.szu.admin.vo.user.AdminUserVO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,12 +22,10 @@ public class AdminUserController {
     private AdminUserService adminUserService;
 
     @RequireRoot
-    @GetMapping("/list")
+    @PostMapping("/list")
     public Result<PageResult<AdminUserVO>> list(
-            @RequestParam(required = false) Integer status,
-            @RequestParam(defaultValue = "1") int page,
-            @RequestParam(defaultValue = "10") int size) {
-        return Result.ok(adminUserService.listAdminUsers(status, page, size));
+            @RequestBody UserQueryDTO dto) {
+        return Result.ok(adminUserService.listAdminUsers(dto));
     }
 
     @RequireRoot
@@ -35,7 +35,6 @@ public class AdminUserController {
         return Result.ok();
     }
 
-    // 资源归属校验，无需角色权限验证（无需root）
     @RequireSelf("id")
     @PostMapping("/update")
     public Result<?> update(@RequestBody UpdateAdminUserDTO dto) {
@@ -47,6 +46,12 @@ public class AdminUserController {
     @PostMapping("/change-status")
     public Result<?> changeStatus(@RequestBody ChangeStatusDTO dto) {
         adminUserService.changeAdminUserStatus(dto);
+        return Result.ok();
+    }
+
+    @PostMapping("/change-deleted")
+    public Result<?> changeDeleted(@RequestBody ChangeDeletedDTO dto) {
+        adminUserService.changeAdminUserDeleted(dto);
         return Result.ok();
     }
 

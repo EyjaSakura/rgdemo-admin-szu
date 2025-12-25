@@ -8,7 +8,7 @@ import java.util.List;
 
 @Mapper
 public interface ClientUserMapper {
-    List<ClientUser> listClientUsers(@Param("status") Integer status, @Param("isDeleted") Integer isDeleted);
+    List<ClientUser> listClientUsers(@Param("isDeleted") Integer isDeleted, @Param("status") Integer status, @Param("name") String name, @Param("sortBy") String sortBy, @Param("sortOrder") String sortOrder);
 
     ClientUser findClientUserByName(@Param("name") String name);
 
@@ -18,5 +18,5 @@ public interface ClientUserMapper {
 
     int updateClientUser(ClientUser adminUser);
 
-    long countClientUsers(@Param("status") Integer status, @Param("isDeleted") Integer isDeleted);
+    long countClientUsers(@Param("isDeleted") Integer isDeleted, @Param("status") Integer status, @Param("name") String name);
 }

@@ -13,11 +13,13 @@ public class Content {
     private Long authorId;
     private Integer viewCount;
     private Integer commentCount;
-    private Double avgRating;
-    private Integer ratingCount;
     private Integer status;     // 1正常 0禁用
+    private String banReason;
     private Integer isDeleted;  // 1已删除 0未删除
-    private String comment;     // JSON 字符串
+    private String comments;     // JSON 字符串
+    private String tags;        // JSON
+    private String likes;       // JSON
+    private String images;      // JSON
     private Date createdAt;
     private Date updatedAt;
 }

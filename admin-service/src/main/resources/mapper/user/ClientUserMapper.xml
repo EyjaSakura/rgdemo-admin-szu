@@ -9,22 +9,30 @@
         <result property="openid" column="openid"/>
         <result property="name" column="name"/>
         <result property="avatar" column="avatar"/>
+        <result property="sex" column="sex"/>
+        <result property="area" column="area"/>
+        <result property="signature" column="signature"/>
         <result property="status" column="status"/>
+        <result property="banReason" column="ban_reason"/>
         <result property="isDeleted" column="is_deleted"/>
         <result property="createTime" column="create_time"/>
         <result property="updateTime" column="update_time"/>
+        <result property="lastLoginTime" column="last_login_time"/>
     </resultMap>
 
     <select id="listClientUsers" resultMap="ClientUserMap">
         SELECT * FROM client_user
         WHERE 1=1
-        <if test="status != null">
-            AND status = #{status}
-        </if>
         <if test="isDeleted != null">
             AND is_deleted = #{isDeleted}
         </if>
-        ORDER BY id DESC
+        <if test="status != null">
+            AND status = #{status}
+        </if>
+        <if test="name != null">
+            AND name LIKE CONCAT('%', #{name}, '%')
+        </if>
+        ORDER BY ${sortBy} ${sortOrder}
     </select>
 
     <select id="findClientUserByName" resultMap="ClientUserMap">
@@ -45,6 +53,7 @@
             <if test="name != null">name = #{name},</if>
             <if test="avatar != null">avatar = #{avatar},</if>
             <if test="status != null">status = #{status},</if>
+            ban_reason = #{banReason},
             <if test="isDeleted != null">is_deleted = #{isDeleted},</if>
             <if test="updateTime != null">update_time = #{updateTime},</if>
         </set>
@@ -54,11 +63,14 @@
     <select id="countClientUsers" resultType="long">
         SELECT COUNT(1) FROM client_user
         WHERE 1=1
+        <if test="isDeleted != null">
+            AND is_deleted = #{isDeleted}
+        </if>
         <if test="status != null">
             AND status = #{status}
         </if>
-        <if test="isDeleted != null">
-            AND is_deleted = #{isDeleted}
+        <if test="name != null">
+            AND name LIKE CONCAT('%', #{name}, '%')
         </if>
     </select>
 

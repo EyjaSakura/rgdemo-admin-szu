@@ -2,9 +2,12 @@ package com.szu.admin.service.user.impl;
 
 import com.szu.admin.common.PageResult;
 import com.szu.admin.domain.AdminUser;
+import com.szu.admin.domain.ClientUser;
+import com.szu.admin.dto.ChangeDeletedDTO;
 import com.szu.admin.dto.ChangeStatusDTO;
 import com.szu.admin.dto.LoginAdminDTO;
 import com.szu.admin.dto.UpdateAdminUserDTO;
+import com.szu.admin.dto.query.UserQueryDTO;
 import com.szu.admin.mapper.user.AdminUserMapper;
 import com.szu.admin.service.user.AdminUserService;
 import com.szu.admin.utils.JwtUtils;
@@ -16,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -25,10 +29,26 @@ public class AdminUserServiceImpl implements AdminUserService {
     private AdminUserMapper adminUserMapper;
 
     @Override
-    public PageResult<AdminUserVO> listAdminUsers(Integer status, int page, int size) {
-        List<AdminUser> list = adminUserMapper.listAdminUsers(status);
-        long total = adminUserMapper.countAdminUsers(status);
-        List<AdminUserVO> vos = list.stream().skip((long)(page-1)*size).limit(size).map(this::toVO).collect(Collectors.toList());
+    public PageResult<AdminUserVO> listAdminUsers(UserQueryDTO dto) {
+
+        // 排序方式
+        String sortBy = dto.getSortBy();
+        String sortOrder = dto.getSortOrder();
+
+        // 排序方式校验
+        Set<String> allowSortFields = Set.of(
+                "created_at", "updated_at"
+        );
+        if (!allowSortFields.contains(sortBy)) {
+            sortBy = "created_at";
+        }
+        if (!"asc".equalsIgnoreCase(sortOrder) && !"desc".equalsIgnoreCase(sortOrder)) {
+            sortOrder = "desc";
+        }
+
+        List<AdminUser> list = adminUserMapper.listAdminUsers(dto.getIsDeleted(), dto.getStatus(), dto.getName(), sortBy, sortOrder);
+        long total = adminUserMapper.countAdminUsers(dto.getIsDeleted(), dto.getStatus(), dto.getName());
+        List<AdminUserVO> vos = list.stream().skip((long)(dto.getPage()-1)*dto.getSize()).limit(dto.getSize()).map(this::toVO).collect(Collectors.toList());
         return new PageResult<>(total, vos);
     }
 
@@ -42,6 +62,9 @@ public class AdminUserServiceImpl implements AdminUserService {
         u.setAvatar(null);
         u.setPhone(null);
         u.setStatus(1);
+        u.setBanReason(null);
+        u.setIsDeleted(0);
+        u.setRootPriv(0);
         adminUserMapper.insertAdminUser(u);
     }
 
@@ -82,10 +105,21 @@ public class AdminUserServiceImpl implements AdminUserService {
 
     @Override
     public void changeAdminUserStatus(ChangeStatusDTO dto) {
-        if (dto.getId() == null || dto.getValue() == null) throw new RuntimeException("参数不完整");
+        if (dto.getId() == null || dto.getStatus() == null) throw new RuntimeException("参数不完整");
+        if (dto.getStatus() == 0 && dto.getBanReason() == null) throw new RuntimeException("请输入封禁原因");
         AdminUser u = new AdminUser();
         u.setId(dto.getId());
-        u.setStatus(dto.getValue());
+        u.setStatus(dto.getStatus());
+        u.setBanReason(dto.getBanReason());
+        adminUserMapper.updateAdminUser(u);
+    }
+
+    @Override
+    public void changeAdminUserDeleted(ChangeDeletedDTO dto) {
+        if (dto.getId() == null || dto.getIsDeleted() == null) throw new RuntimeException("参数不完整");
+        AdminUser u = new AdminUser();
+        u.setId(dto.getId());
+        u.setIsDeleted(dto.getIsDeleted());
         adminUserMapper.updateAdminUser(u);
     }
 

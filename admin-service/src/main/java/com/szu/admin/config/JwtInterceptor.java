@@ -2,6 +2,7 @@ package com.szu.admin.config;
 
 import com.szu.admin.common.annotation.RequireRoot;
 import com.szu.admin.common.annotation.RequireSelf;
+import com.szu.admin.common.context.AdminContext;
 import com.szu.admin.utils.JwtUtils;
 import io.jsonwebtoken.Claims;
 import jakarta.servlet.http.HttpServletRequest;
@@ -40,6 +41,14 @@ public class JwtInterceptor implements HandlerInterceptor {
             // 把 claims 放到 request 中，Controller 可随时取用
             request.setAttribute("id", claims.get("id"));
             request.setAttribute("root_priv",claims.get("root_priv"));
+
+            // 将身份信息放入全局上下文AdminContext
+            Integer id = (Integer) claims.get("id");
+            Integer rootPriv = (Integer) claims.get("root_priv");
+
+            AdminContext.setUserId(id);
+            AdminContext.setRootPriv(rootPriv);
+
         } catch (Exception e) {
             response.setStatus(401);
             response.getWriter().write("Unauthorized: token invalid");
@@ -70,4 +79,13 @@ public class JwtInterceptor implements HandlerInterceptor {
 
         return true;
     }
+
+    @Override
+    public void afterCompletion(HttpServletRequest request,
+                               HttpServletResponse response,
+                               Object handler,
+                               Exception ex) throws Exception {
+        AdminContext.clear();
+    }
+
 }

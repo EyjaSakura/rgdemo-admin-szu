@@ -8,7 +8,7 @@ import java.util.List;
 
 @Mapper
 public interface AdminUserMapper {
-    List<AdminUser> listAdminUsers(@Param("status") Integer status);
+    List<AdminUser> listAdminUsers(@Param("isDeleted") Integer isDeleted, @Param("status") Integer status, @Param("name") String name, @Param("sortBy") String sortBy, @Param("sortOrder") String sortOrder);
 
     AdminUser findAdminUserByUsername(@Param("username") String username);
 
@@ -20,5 +20,5 @@ public interface AdminUserMapper {
 
     int updateAdminUser(AdminUser adminUser);
 
-    long countAdminUsers(@Param("status") Integer status);
+    long countAdminUsers(@Param("isDeleted") Integer isDeleted, @Param("status") Integer status, @Param("name") String name);
 }

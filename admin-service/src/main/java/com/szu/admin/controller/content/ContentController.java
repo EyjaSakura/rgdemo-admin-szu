@@ -2,6 +2,7 @@ package com.szu.admin.controller.content;
 
 import com.szu.admin.common.PageResult;
 import com.szu.admin.common.Result;
+import com.szu.admin.dto.ChangeDeletedDTO;
 import com.szu.admin.dto.ChangeStatusDTO;
 import com.szu.admin.dto.UpdateContentDTO;
 import com.szu.admin.dto.query.ContentQueryDTO;
@@ -30,7 +31,7 @@ public class ContentController {
     }
 
     @PostMapping("/change-deleted")
-    public Result<?> changeDeleted(@RequestBody ChangeStatusDTO dto) {
+    public Result<?> changeDeleted(@RequestBody ChangeDeletedDTO dto) {
         contentService.changeDeleted(dto);
         return Result.ok();
     }

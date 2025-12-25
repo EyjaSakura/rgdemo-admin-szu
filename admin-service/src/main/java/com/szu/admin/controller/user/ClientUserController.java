@@ -2,8 +2,10 @@ package com.szu.admin.controller.user;
 
 import com.szu.admin.common.PageResult;
 import com.szu.admin.common.Result;
+import com.szu.admin.dto.ChangeDeletedDTO;
 import com.szu.admin.dto.ChangeStatusDTO;
 import com.szu.admin.dto.UpdateClientUserDTO;
+import com.szu.admin.dto.query.UserQueryDTO;
 import com.szu.admin.service.user.ClientUserService;
 import com.szu.admin.vo.user.ClientUserVO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,13 +18,10 @@ public class ClientUserController {
     @Autowired
     private ClientUserService clientUserService;
 
-    @GetMapping("/list")
+    @PostMapping("/list")
     public Result<PageResult<ClientUserVO>> list(
-            @RequestParam(required = false) Integer status,
-            @RequestParam(required = false) Integer isDeleted,
-            @RequestParam(defaultValue = "1") int page,
-            @RequestParam(defaultValue = "10") int size) {
-        return Result.ok(clientUserService.listClientUsers(status, isDeleted, page, size));
+            @RequestBody UserQueryDTO dto) {
+        return Result.ok(clientUserService.listClientUsers(dto));
     }
 
     @PostMapping("/update")
@@ -38,8 +37,8 @@ public class ClientUserController {
     }
 
     @PostMapping("/change-deleted")
-    public Result<?> changeDeleted(@RequestBody ChangeStatusDTO dto) {
-        clientUserService.changeClientUserIsDeleted(dto);
+    public Result<?> changeDeleted(@RequestBody ChangeDeletedDTO dto) {
+        clientUserService.changeClientUserDeleted(dto);
         return Result.ok();
     }
 

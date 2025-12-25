@@ -8,6 +8,10 @@ public class UpdateContentDTO {
     private String title;
     private String coverImage;
     private String contentBody;
-    private Integer status;
-    private Integer isDeleted;
+    private Integer viewCount;
+    private Integer commentCount;
+    private String comments;
+    private String tags;
+    private String likes;
+    private String images;
 }

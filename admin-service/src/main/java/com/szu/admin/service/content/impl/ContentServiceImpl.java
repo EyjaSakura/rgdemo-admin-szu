@@ -2,6 +2,7 @@ package com.szu.admin.service.content.impl;
 
 import com.szu.admin.common.PageResult;
 import com.szu.admin.domain.Content;
+import com.szu.admin.dto.ChangeDeletedDTO;
 import com.szu.admin.dto.ChangeStatusDTO;
 import com.szu.admin.dto.UpdateContentDTO;
 import com.szu.admin.dto.query.ContentQueryDTO;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -24,27 +26,45 @@ public class ContentServiceImpl implements ContentService {
 
     @Override
     public PageResult<ContentVO> listContents(ContentQueryDTO dto) {
-        List<Content> list = contentMapper.listContents(dto.getIsDeleted(), dto.getStatus(), dto.getTagIds());
-        long total = contentMapper.countContents(dto.getIsDeleted(), dto.getStatus(), dto.getTagIds());
+
+        // 排序方式
+        String sortBy = dto.getSortBy();
+        String sortOrder = dto.getSortOrder();
+
+        // 排序方式校验
+        Set<String> allowSortFields = Set.of(
+                "created_at", "updated_at", "view_count"
+        );
+        if (!allowSortFields.contains(sortBy)) {
+            sortBy = "created_at";
+        }
+        if (!"asc".equalsIgnoreCase(sortOrder) && !"desc".equalsIgnoreCase(sortOrder)) {
+            sortOrder = "desc";
+        }
+
+        List<Content> list = contentMapper.listContents(dto.getIsDeleted(), dto.getStatus(), dto.getTagIds(), dto.getKeyword(), sortBy, sortOrder);
+        long total = contentMapper.countContents(dto.getIsDeleted(), dto.getStatus(), dto.getTagIds(), dto.getKeyword());
         List<ContentVO> vos = list.stream().skip((long)(dto.getPage()-1)*dto.getSize()).limit(dto.getSize()).map(this::toVO).collect(Collectors.toList());
         return new PageResult<>(total, vos);
     }
 
     @Override
     public void changeStatus(ChangeStatusDTO dto) {
-        if (dto.getId() == null || dto.getValue() == null) throw new RuntimeException("参数不完整");
+        if (dto.getId() == null || dto.getStatus() == null) throw new RuntimeException("参数不完整");
+        if (dto.getStatus() == 0 && dto.getBanReason() == null) throw new RuntimeException("请输入封禁原因");
         Content c = new Content();
         c.setId(dto.getId());
-        c.setStatus(dto.getValue());
+        c.setStatus(dto.getStatus());
+        c.setBanReason(dto.getBanReason());
         contentMapper.update(c);
     }
 
     @Override
-    public void changeDeleted(@RequestBody ChangeStatusDTO dto) {
-        if (dto.getId() == null || dto.getValue() == null) throw new RuntimeException("参数不完整");
+    public void changeDeleted(@RequestBody ChangeDeletedDTO dto) {
+        if (dto.getId() == null || dto.getIsDeleted() == null) throw new RuntimeException("参数不完整");
         Content c = new Content();
         c.setId(dto.getId());
-        c.setIsDeleted(dto.getValue());
+        c.setIsDeleted(dto.getIsDeleted());
         contentMapper.update(c);
     }
 
@@ -63,8 +83,13 @@ public class ContentServiceImpl implements ContentService {
         c.setTitle(dto.getTitle());
         c.setCoverImage(dto.getCoverImage());
         c.setContentBody(dto.getContentBody());
-        c.setStatus(dto.getStatus());
-        c.setIsDeleted(dto.getIsDeleted());
+        c.setViewCount(dto.getViewCount());
+        // 下面的也许要校验格式？
+        c.setCommentCount(dto.getCommentCount());
+        c.setComments(dto.getComments());
+        c.setTags(dto.getTags());
+        c.setLikes(dto.getLikes());
+        c.setImages(dto.getImages());
         contentMapper.update(c);
     }
 

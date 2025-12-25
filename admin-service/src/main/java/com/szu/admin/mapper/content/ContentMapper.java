@@ -8,7 +8,7 @@ import java.util.List;
 
 @Mapper
 public interface ContentMapper {
-    List<Content> listContents(@Param("isDeleted") Integer isDeleted, @Param("status") Integer status, @Param("tagIds") List<Integer> tagIds);
+    List<Content> listContents(@Param("isDeleted") Integer isDeleted, @Param("status") Integer status, @Param("tagIds") List<Integer> tagIds, @Param("keyword") String keyword, @Param("sortBy") String sortBy, @Param("sortOrder") String sortOrder);
 
     Content findById(@Param("id") Long id);
 
@@ -16,5 +16,5 @@ public interface ContentMapper {
 
     int update(Content content);
 
-    long countContents(@Param("isDeleted") Integer isDeleted, @Param("status") Integer status, @Param("tagIds") List<Integer> tagIds);
+    long countContents(@Param("isDeleted") Integer isDeleted, @Param("status") Integer status, @Param("tagIds") List<Integer> tagIds, @Param("keyword") String keyword);
 }

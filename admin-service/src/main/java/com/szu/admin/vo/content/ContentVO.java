@@ -13,10 +13,12 @@ public class ContentVO {
     private Long authorId;
     private Integer viewCount;
     private Integer commentCount;
-    private Double avgRating;
-    private Integer ratingCount;
     private Integer status;
+    private String banReason;
     private Integer isDeleted;
-    private String comment;
+    private String comments;
+    private String tags;
+    private String likes;
+    private String images;
     private Date createdAt;
 }
